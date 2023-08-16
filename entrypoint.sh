@@ -2,8 +2,15 @@
 
 set -e  # if a command fails it stops the execution
 set -u  # script fails if trying to access to an undefined variable
+MAX_RETRIES=3
+RETRY_DELAY=10 
 
-echo "[+] Action start"
+retry_count=0
+
+while [ $retry_count -lt $MAX_RETRIES ]; do
+  retry_count=$((retry_count + 1))
+  
+  echo "[+] Action start (Retry Attempt $retry_count)"
 SOURCE_BEFORE_DIRECTORY="${1}"
 SOURCE_DIRECTORY="${2}"
 DESTINATION_GITHUB_USERNAME="${3}"
@@ -173,3 +180,19 @@ git diff-index --quiet HEAD || git commit --message "$COMMIT_MESSAGE"
 echo "[+] Pushing git commit"
 # --set-upstream: sets de branch when pushing to a branch that does not exist
 git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
+
+if [ $? -eq 0 ]; then
+    echo "Success!"
+    break
+  else
+    echo "Failure..."
+    
+    if [ $retry_count -lt $MAX_RETRIES ]; then
+      echo "Retrying in $RETRY_DELAY seconds..."
+      sleep $RETRY_DELAY
+    else
+      echo "All retry attempts failed."
+      exit 1
+    fi
+  fi
+done
