@@ -175,8 +175,8 @@ echo "[+] Pushing git commit"
 # git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
 
 # Añadir un bucle para reintentar el git push en caso de fallo
-max_push_retries=3
-push_retries=0
+max_push_retries=10
+push_retries=3
 push_success=false
 
 while [ $push_retries -lt $max_push_retries ] && [ "$push_success" = false ]; do
