@@ -2,6 +2,8 @@
 
 set -e
 set -u
+git config --global --add safe.directory /github/workspace
+
 MAX_RETRIES=5
 RETRY_DELAY=10 
 
