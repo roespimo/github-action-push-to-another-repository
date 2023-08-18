@@ -159,6 +159,8 @@ while [ $retry_count -lt $max_retries ] && [ "$success" = false ]; do
         echo "Error en el push. Reintentando..."
         retry_count=$((retry_count + 1))
         sleep 5
+
+        git pull origin "$TARGET_BRANCH"
     fi
 done
 
