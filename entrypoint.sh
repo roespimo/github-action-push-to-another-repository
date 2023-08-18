@@ -180,6 +180,7 @@ push_retries=3
 push_success=false
 
 while [ $push_retries -lt $max_push_retries ] && [ "$push_success" = false ]; do
+    git pull origin "$TARGET_BRANCH" 
     git push "$GIT_CMD_REPOSITORY" --set-upstream "$TARGET_BRANCH"
 
     if [ $? -eq 0 ]; then
