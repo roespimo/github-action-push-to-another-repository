@@ -135,6 +135,8 @@ while [ $retry_count -lt $max_retries ] && [ "$success" = false ]; do
         git switch -c "$TARGET_BRANCH" || true
     fi
 
+    git pull origin "$TARGET_BRANCH"
+
     echo "[+] Adding git commit"
     git add .
 
