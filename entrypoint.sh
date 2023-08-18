@@ -176,7 +176,7 @@ echo "[+] Pushing git commit"
 
 # Añadir un bucle para reintentar el git push en caso de fallo
 max_push_retries=10
-push_retries=3
+push_retries=0
 push_success=false
 
 while [ $push_retries -lt $max_push_retries ] && [ "$push_success" = false ]; do
